@@ -47,12 +47,12 @@ export const UserDashboard = ({ user }: UserDashboardProps) => {
       <Navbar />
       
       <div className="container mx-auto px-4 pt-24 pb-12">
-        <div className="mb-8">
+        <div className="mb-8 animate-slide-down">
           <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard</h1>
           <p className="text-muted-foreground">Selamat datang kembali!</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-3 gap-6 mb-8 stagger-fade-in">
           <Card className="glass-card">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -90,7 +90,7 @@ export const UserDashboard = ({ user }: UserDashboardProps) => {
           </Card>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 stagger-fade-in">
           <Card className="glass-card">
             <CardHeader>
               <CardTitle>Pesan Paket Baru</CardTitle>
