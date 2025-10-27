@@ -17,34 +17,32 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4">
         <div className="container mx-auto text-center">
-          <div className="animate-fade-in opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
+          <div className="animate-slide-down">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="gradient-text">Hosting Murah Meriah</span>
               <br />
               <span className="text-foreground">untuk Pelajar</span>
             </h1>
-          </div>
-          <div className="animate-fade-in opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Mulai dari <span className="text-primary font-bold">Rp 5.000/bulan</span> dengan SSL gratis, 24/7 support, dan backup otomatis
             </p>
-          </div>
-          <div className="flex gap-4 justify-center animate-fade-in opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
-            <Button
-              onClick={() => navigate("/register")}
-              size="lg"
-              className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 glow-yellow text-lg px-8 py-6 hover:scale-105 transition-transform"
-            >
-              Daftar Sekarang
-            </Button>
-            <Button
-              onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
-              size="lg"
-              variant="outline"
-              className="border-primary/50 hover:bg-primary/10 text-lg px-8 py-6 hover:scale-105 transition-transform"
-            >
-              Lihat Paket
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button
+                onClick={() => navigate("/register")}
+                size="lg"
+                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 glow-yellow text-lg px-8 py-6"
+              >
+                Daftar Sekarang
+              </Button>
+              <Button
+                onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
+                size="lg"
+                variant="outline"
+                className="border-primary/50 hover:bg-primary/10 text-lg px-8 py-6"
+              >
+                Lihat Paket
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -52,10 +50,10 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 px-4 relative">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 gradient-text animate-fade-in">
+          <h2 className="text-4xl font-bold text-center mb-12 gradient-text">
             Keunggulan Smart-Hosting
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 stagger-fade-in">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: <Zap className="w-12 h-12" />,
@@ -106,13 +104,13 @@ const Index = () => {
       {/* Packages Section */}
       <section id="packages" className="py-20 px-4 relative">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-4 gradient-text animate-fade-in">
+          <h2 className="text-4xl font-bold text-center mb-4 gradient-text">
             Pilih Paket Hosting
           </h2>
-          <p className="text-center text-muted-foreground mb-12 text-lg animate-fade-in">
+          <p className="text-center text-muted-foreground mb-12 text-lg">
             Semua paket sudah termasuk SSL gratis dan 24/7 support
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-fade-in">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {packages.map((pkg, index) => (
               <PackageCard
                 key={index}
@@ -127,7 +125,7 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 px-4 relative">
         <div className="container mx-auto text-center">
-          <div className="glass-card p-12 max-w-3xl mx-auto glow-green animate-slide-up hover:scale-105 transition-transform">
+          <div className="glass-card p-12 max-w-3xl mx-auto glow-green">
             <h2 className="text-4xl font-bold mb-4">
               Siap Memulai Website Kamu?
             </h2>
@@ -137,7 +135,7 @@ const Index = () => {
             <Button
               onClick={() => navigate("/register")}
               size="lg"
-              className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 hover:scale-110 glow-yellow text-lg px-12 py-6 transition-transform"
+              className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 glow-yellow text-lg px-12 py-6"
             >
               Daftar Gratis Sekarang
             </Button>
