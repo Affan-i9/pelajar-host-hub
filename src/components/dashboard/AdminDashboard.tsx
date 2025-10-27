@@ -2,6 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { Navbar } from "@/components/Navbar";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Users, Package, MessageSquare, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -102,10 +103,13 @@ export const AdminDashboard = ({ user }: AdminDashboardProps) => {
           <CardHeader>
             <CardTitle>Admin Actions</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Fitur admin lengkap akan segera tersedia untuk kelola users, orders, dan tickets.
-            </p>
+          <CardContent className="space-y-2">
+            <Button
+              onClick={() => window.location.href = "/admin/tickets"}
+              className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+            >
+              Kelola Tickets
+            </Button>
           </CardContent>
         </Card>
       </div>

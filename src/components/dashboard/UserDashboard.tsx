@@ -118,6 +118,7 @@ export const UserDashboard = ({ user }: UserDashboardProps) => {
                 Hubungi kami melalui support ticket
               </p>
               <Button
+                onClick={() => navigate("/tickets")}
                 variant="outline"
                 className="border-primary/50 hover:bg-primary/10"
               >
