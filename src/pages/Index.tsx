@@ -19,14 +19,14 @@ const Index = () => {
         <div className="container mx-auto text-center">
           <div className="animate-fade-in opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="gradient-text">Hosting Murah Meriah</span>
+              <span className="gradient-text">Smart-Hosting</span>
               <br />
-              <span className="text-foreground">untuk Pelajar</span>
+              <span className="text-foreground">Hosting Murah untuk Pelajar</span>
             </h1>
           </div>
           <div className="animate-fade-in opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Mulai dari <span className="text-primary font-bold">Rp 5.000/bulan</span> dengan SSL gratis, 24/7 support, dan backup otomatis
+              Mulai dari <span className="text-primary font-bold">Rp 10.000/bulan</span> dengan SSL gratis, 24/7 support, dan backup otomatis
             </p>
           </div>
           <div className="flex gap-4 justify-center animate-fade-in opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
