@@ -10,6 +10,8 @@ import Dashboard from "./pages/Dashboard";
 import Order from "./pages/Order";
 import Tickets from "./pages/Tickets";
 import AdminTickets from "./pages/AdminTickets";
+import AdminOrders from "./pages/AdminOrders";
+import AdminUsers from "./pages/AdminUsers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/order" element={<Order />} />
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/admin/tickets" element={<AdminTickets />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

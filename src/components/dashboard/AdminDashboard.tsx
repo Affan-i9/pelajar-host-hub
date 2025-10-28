@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Package, MessageSquare, Clock, ShoppingCart, TrendingUp, Activity, Settings } from "lucide-react";
+import { Users, Package, MessageSquare, Clock, ShoppingCart, TrendingUp, Activity, Settings, Shield, BarChart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +34,7 @@ interface Order {
 
 export const AdminDashboard = ({ user }: AdminDashboardProps) => {
   const navigate = useNavigate();
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [stats, setStats] = useState({
     totalUsers: 0,
     pendingOrders: 0,
@@ -45,6 +46,19 @@ export const AdminDashboard = ({ user }: AdminDashboardProps) => {
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
 
   useEffect(() => {
+    const checkRole = async () => {
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user?.id)
+        .single();
+
+      if (roleData) {
+        setIsSuperAdmin(roleData.role === "super_admin");
+      }
+    };
+
+    checkRole();
     const fetchStats = async () => {
       const [usersRes, ordersRes, ticketsRes, profilesRes] = await Promise.all([
         supabase.from("profiles").select("*", { count: "exact" }),
@@ -89,7 +103,7 @@ export const AdminDashboard = ({ user }: AdminDashboardProps) => {
     };
 
     fetchStats();
-  }, []);
+  }, [user]);
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
@@ -250,39 +264,81 @@ export const AdminDashboard = ({ user }: AdminDashboardProps) => {
         </Card>
 
         {/* Admin Actions */}
-        <Card className="glass-card animate-slide-up">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5 text-primary" />
-              Admin Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid md:grid-cols-3 gap-4">
-            <Button
-              onClick={() => navigate("/admin/tickets")}
-              className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 glow-yellow"
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card 
+            className="glass-card cursor-pointer hover:scale-105 transition-transform glow-yellow"
+            onClick={() => navigate("/admin/orders")}
+          >
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center text-center">
+                <ShoppingCart className="w-12 h-12 text-primary mb-3" />
+                <h3 className="font-bold text-lg mb-1">Kelola Order</h3>
+                <p className="text-sm text-muted-foreground">Verifikasi & approve order</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {isSuperAdmin && (
+            <Card 
+              className="glass-card cursor-pointer hover:scale-105 transition-transform glow-yellow"
+              onClick={() => navigate("/admin/users")}
             >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Kelola Tickets
-            </Button>
-            <Button
-              onClick={() => navigate("/")}
-              variant="outline"
-              className="w-full border-primary/50 hover:bg-primary/10"
-            >
-              <Package className="w-4 h-4 mr-2" />
-              Kelola Paket
-            </Button>
-            <Button
-              onClick={() => navigate("/")}
-              variant="outline"
-              className="w-full border-secondary/50 hover:bg-secondary/10"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Kelola User
-            </Button>
-          </CardContent>
-        </Card>
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center">
+                  <Users className="w-12 h-12 text-primary mb-3" />
+                  <h3 className="font-bold text-lg mb-1">Kelola User</h3>
+                  <p className="text-sm text-muted-foreground">Block/unblock & manage admin</p>
+                  <Badge className="mt-2 bg-gradient-to-r from-amber-500 to-orange-500">
+                    <Shield className="w-3 h-3 mr-1" />
+                    Super Admin
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <Card 
+            className="glass-card cursor-pointer hover:scale-105 transition-transform glow-yellow"
+            onClick={() => navigate("/admin/tickets")}
+          >
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center text-center">
+                <MessageSquare className="w-12 h-12 text-primary mb-3" />
+                <h3 className="font-bold text-lg mb-1">Kelola Tiket</h3>
+                <p className="text-sm text-muted-foreground">Balas & tutup tiket support</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card 
+            className="glass-card cursor-pointer hover:scale-105 transition-transform"
+            onClick={() => navigate("/")}
+          >
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center text-center">
+                <Package className="w-12 h-12 text-primary mb-3" />
+                <h3 className="font-bold text-lg mb-1">Lihat Paket</h3>
+                <p className="text-sm text-muted-foreground">Daftar paket hosting</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {isSuperAdmin && (
+            <Card className="glass-card cursor-pointer hover:scale-105 transition-transform">
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center">
+                  <BarChart className="w-12 h-12 text-primary mb-3" />
+                  <h3 className="font-bold text-lg mb-1">Analytics</h3>
+                  <p className="text-sm text-muted-foreground">Revenue & performance stats</p>
+                  <Badge className="mt-2 bg-gradient-to-r from-amber-500 to-orange-500">
+                    <Shield className="w-3 h-3 mr-1" />
+                    Super Admin
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );

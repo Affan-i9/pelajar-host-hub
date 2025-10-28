@@ -25,6 +25,7 @@ export type Database = {
           status: string | null
           updated_at: string
           user_id: string
+          website_file: string | null
         }
         Insert: {
           created_at?: string
@@ -36,6 +37,7 @@ export type Database = {
           status?: string | null
           updated_at?: string
           user_id: string
+          website_file?: string | null
         }
         Update: {
           created_at?: string
@@ -47,11 +49,13 @@ export type Database = {
           status?: string | null
           updated_at?: string
           user_id?: string
+          website_file?: string | null
         }
         Relationships: []
       }
       profiles: {
         Row: {
+          blocked: boolean | null
           created_at: string
           email: string
           id: string
@@ -59,6 +63,7 @@ export type Database = {
           username: string
         }
         Insert: {
+          blocked?: boolean | null
           created_at?: string
           email: string
           id?: string
@@ -66,6 +71,7 @@ export type Database = {
           username: string
         }
         Update: {
+          blocked?: boolean | null
           created_at?: string
           email?: string
           id?: string
@@ -160,9 +166,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "user" | "admin"
+      app_role: "user" | "admin" | "super_admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -290,7 +297,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["user", "admin"],
+      app_role: ["user", "admin", "super_admin"],
     },
   },
 } as const
