@@ -52,51 +52,56 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 px-4 relative">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 gradient-text animate-fade-in">
-            Keunggulan Smart-Hosting
-          </h2>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">
+              <span className="gradient-text">Keunggulan Smart-Hosting</span>
+            </h2>
+            <p className="text-xl text-muted-foreground animate-fade-in">
+              Layanan hosting terbaik dengan fitur lengkap untuk kesuksesan website kamu
+            </p>
+          </div>
           <div className="grid md:grid-cols-3 gap-8 stagger-fade-in">
             {[
               {
-                icon: <Zap className="w-12 h-12" />,
+                icon: <Zap className="w-12 h-12 text-white" />,
                 title: "Performa Tinggi",
                 description: "Server cepat dengan uptime 99.9% untuk website kamu"
               },
               {
-                icon: <Shield className="w-12 h-12" />,
+                icon: <Shield className="w-12 h-12 text-white" />,
                 title: "Keamanan Terjamin",
                 description: "SSL gratis dan backup otomatis setiap hari"
               },
               {
-                icon: <HeadphonesIcon className="w-12 h-12" />,
+                icon: <HeadphonesIcon className="w-12 h-12 text-white" />,
                 title: "24/7 Support",
                 description: "Tim support siap membantu kapan saja kamu butuh"
               },
               {
-                icon: <Server className="w-12 h-12" />,
+                icon: <Server className="w-12 h-12 text-white" />,
                 title: "Resource Unlimited",
                 description: "Bandwidth dan storage sesuai kebutuhan"
               },
               {
-                icon: <Award className="w-12 h-12" />,
+                icon: <Award className="w-12 h-12 text-white" />,
                 title: "Harga Pelajar",
                 description: "Harga khusus untuk pelajar dan mahasiswa"
               },
               {
-                icon: <Globe className="w-12 h-12" />,
+                icon: <Globe className="w-12 h-12 text-white" />,
                 title: "Domain Gratis",
                 description: "Dapatkan domain gratis untuk setiap paket"
               }
             ].map((feature, index) => (
               <div
                 key={index}
-                className="glass-card p-6 text-center hover:scale-105 transition-all group"
+                className="glass-card p-8 text-center hover:scale-105 transition-all duration-300 group cursor-pointer"
               >
-                <div className="inline-block p-4 rounded-full bg-gradient-to-br from-primary to-secondary glow-yellow mb-4 group-hover:animate-pulse-glow">
+                <div className="inline-flex items-center justify-center p-5 rounded-2xl bg-gradient-to-br from-primary via-secondary to-primary glow-yellow mb-6 group-hover:animate-pulse-glow group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <h3 className="text-2xl font-bold mb-3 gradient-text">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
