@@ -196,97 +196,232 @@ const AdminUsers = () => {
       <Navbar />
 
       <div className="container mx-auto px-4 pt-24 pb-12">
-        <Card className="glass-card">
-          <CardHeader>
-            <CardTitle className="text-3xl gradient-text">Manajemen User</CardTitle>
-            {!isSuperAdmin && (
-              <p className="text-sm text-muted-foreground">Mode View Only - Hanya Super Admin yang bisa mengubah data</p>
+        {/* Header Section */}
+        <div className="mb-8 animate-slide-down">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-5xl font-bold gradient-text mb-2">Manajemen User</h1>
+              <p className="text-muted-foreground text-lg">
+                {isSuperAdmin ? "Kelola semua user dan admin" : "Mode View Only - Hanya Super Admin yang bisa mengubah data"}
+              </p>
+            </div>
+            {isSuperAdmin && (
+              <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 text-lg">
+                <Shield className="w-5 h-5 mr-2" />
+                Super Admin
+              </Badge>
             )}
+          </div>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid md:grid-cols-4 gap-6 mb-8 stagger-fade-in">
+          <Card className="glass-card overflow-hidden relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Total User</p>
+                  <h3 className="text-3xl font-bold">{users.length}</h3>
+                </div>
+                <div className="p-3 rounded-full bg-primary/10">
+                  <UserCheck className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card overflow-hidden relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Admin</p>
+                  <h3 className="text-3xl font-bold">
+                    {Object.values(userRoles).filter(r => r === "admin").length}
+                  </h3>
+                </div>
+                <div className="p-3 rounded-full bg-secondary/10">
+                  <Shield className="w-6 h-6 text-secondary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card overflow-hidden relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Super Admin</p>
+                  <h3 className="text-3xl font-bold">
+                    {Object.values(userRoles).filter(r => r === "super_admin").length}
+                  </h3>
+                </div>
+                <div className="p-3 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20">
+                  <Shield className="w-6 h-6 text-amber-500" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card overflow-hidden relative group">
+            <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Blocked</p>
+                  <h3 className="text-3xl font-bold">
+                    {users.filter(u => u.blocked).length}
+                  </h3>
+                </div>
+                <div className="p-3 rounded-full bg-destructive/10">
+                  <UserX className="w-6 h-6 text-destructive" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Users Table */}
+        <Card className="glass-card animate-slide-up">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <UserCheck className="w-6 h-6 text-primary" />
+              Daftar User
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {users.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8">Belum ada user</p>
+              <div className="text-center py-12">
+                <UserX className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+                <p className="text-muted-foreground text-lg">Belum ada user terdaftar</p>
+              </div>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Username</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Tanggal Daftar</TableHead>
-                    {isSuperAdmin && <TableHead>Aksi</TableHead>}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell className="font-semibold">{user.username}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>
-                        <Badge variant={userRoles[user.user_id] === "super_admin" ? "default" : userRoles[user.user_id] === "admin" ? "secondary" : "outline"}>
-                          {userRoles[user.user_id] || "user"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={user.blocked ? "destructive" : "default"}>
-                          {user.blocked ? "Blocked" : "Active"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{new Date(user.created_at).toLocaleDateString('id-ID')}</TableCell>
-                      {isSuperAdmin && (
-                        <TableCell>
-                          <div className="flex gap-2">
-                            {userRoles[user.user_id] === "user" && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleMakeAdmin(user.user_id)}
-                              >
-                                <Shield className="w-4 h-4 mr-1" />
-                                Jadikan Admin
-                              </Button>
-                            )}
-                            <Button
-                              size="sm"
-                              variant={user.blocked ? "default" : "outline"}
-                              onClick={() => handleBlockUser(user.user_id, user.blocked)}
-                            >
-                              {user.blocked ? <UserCheck className="w-4 h-4" /> : <UserX className="w-4 h-4" />}
-                            </Button>
-                            {userRoles[user.user_id] !== "super_admin" && (
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => setDeleteUserId(user.user_id)}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            )}
-                          </div>
-                        </TableCell>
-                      )}
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="font-bold">Username</TableHead>
+                      <TableHead className="font-bold">Email</TableHead>
+                      <TableHead className="font-bold">Role</TableHead>
+                      <TableHead className="font-bold">Status</TableHead>
+                      <TableHead className="font-bold">Tanggal Daftar</TableHead>
+                      {isSuperAdmin && <TableHead className="font-bold">Aksi</TableHead>}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {users.map((user) => (
+                      <TableRow key={user.id} className="hover:bg-primary/5 transition-colors">
+                        <TableCell className="font-semibold">{user.username}</TableCell>
+                        <TableCell className="text-muted-foreground">{user.email}</TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={
+                              userRoles[user.user_id] === "super_admin" 
+                                ? "default" 
+                                : userRoles[user.user_id] === "admin" 
+                                ? "secondary" 
+                                : "outline"
+                            }
+                            className={
+                              userRoles[user.user_id] === "super_admin"
+                                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white"
+                                : ""
+                            }
+                          >
+                            {userRoles[user.user_id] === "super_admin" && <Shield className="w-3 h-3 mr-1" />}
+                            {userRoles[user.user_id] || "user"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={user.blocked ? "destructive" : "default"}
+                            className={user.blocked ? "" : "bg-green-600"}
+                          >
+                            {user.blocked ? "Blocked" : "Active"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {new Date(user.created_at).toLocaleDateString('id-ID', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                          })}
+                        </TableCell>
+                        {isSuperAdmin && (
+                          <TableCell>
+                            <div className="flex gap-2">
+                              {userRoles[user.user_id] === "user" && (
+                                <Button
+                                  size="sm"
+                                  className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+                                  onClick={() => handleMakeAdmin(user.user_id)}
+                                >
+                                  <Shield className="w-4 h-4 mr-1" />
+                                  Jadikan Admin
+                                </Button>
+                              )}
+                              <Button
+                                size="sm"
+                                variant={user.blocked ? "default" : "outline"}
+                                onClick={() => handleBlockUser(user.user_id, user.blocked)}
+                                className={user.blocked ? "bg-green-600 hover:bg-green-700" : ""}
+                              >
+                                {user.blocked ? (
+                                  <>
+                                    <UserCheck className="w-4 h-4 mr-1" />
+                                    Unblock
+                                  </>
+                                ) : (
+                                  <>
+                                    <UserX className="w-4 h-4 mr-1" />
+                                    Block
+                                  </>
+                                )}
+                              </Button>
+                              {userRoles[user.user_id] !== "super_admin" && (
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => setDeleteUserId(user.user_id)}
+                                >
+                                  <Trash2 className="w-4 h-4 mr-1" />
+                                  Hapus
+                                </Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>
       </div>
 
       <AlertDialog open={!!deleteUserId} onOpenChange={() => setDeleteUserId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="glass-card">
           <AlertDialogHeader>
-            <AlertDialogTitle>Hapus User?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Aksi ini tidak bisa dibatalkan. User dan semua datanya akan dihapus permanen.
+            <AlertDialogTitle className="text-2xl flex items-center gap-2">
+              <Trash2 className="w-6 h-6 text-destructive" />
+              Hapus User?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-base">
+              Aksi ini tidak bisa dibatalkan. User dan semua datanya akan dihapus permanen dari sistem.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Batal</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteUser} className="bg-destructive">
-              Hapus
+            <AlertDialogCancel className="hover:bg-muted">Batal</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteUser} 
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Hapus Permanen
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
