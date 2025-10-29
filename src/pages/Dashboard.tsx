@@ -23,15 +23,15 @@ const Dashboard = () => {
 
       setUser(session.user);
 
-      // Check if user is admin
+      // Check if user is admin or super_admin
       const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id)
-        .eq("role", "admin")
         .single();
 
-      setIsAdmin(!!roleData);
+      // Show AdminDashboard for both admin and super_admin roles
+      setIsAdmin(roleData?.role === "admin" || roleData?.role === "super_admin");
       setLoading(false);
     };
 
