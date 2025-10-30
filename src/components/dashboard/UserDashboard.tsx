@@ -48,8 +48,10 @@ export const UserDashboard = ({ user }: UserDashboardProps) => {
       
       <div className="container mx-auto px-4 pt-24 pb-12">
         <div className="mb-8 animate-slide-down">
-          <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard</h1>
-          <p className="text-muted-foreground">Selamat datang kembali!</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-2">
+            <span className="gradient-text">Selamat Datang Kembali!</span>
+          </h1>
+          <p className="text-lg text-foreground/80">Kelola hosting dan pesanan Anda</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8 stagger-fade-in">
