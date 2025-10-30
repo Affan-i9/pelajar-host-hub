@@ -66,20 +66,29 @@ const AdminOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data: ordersData, error } = await supabase
+      // Fetch orders and profiles separately
+      const { data: ordersData, error: ordersError } = await supabase
         .from("orders")
-        .select(`
-          *,
-          profiles:user_id (username, email)
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (ordersError) throw ordersError;
 
-      const formattedOrders = ordersData.map((order: any) => ({
-        ...order,
-        profile: Array.isArray(order.profiles) ? order.profiles[0] : order.profiles
-      }));
+      // Fetch all profiles
+      const { data: profilesData, error: profilesError } = await supabase
+        .from("profiles")
+        .select("user_id, username, email");
+
+      if (profilesError) throw profilesError;
+
+      // Join orders with profiles manually
+      const formattedOrders = ordersData.map((order: any) => {
+        const profile = profilesData.find(p => p.user_id === order.user_id);
+        return {
+          ...order,
+          profile: profile || { username: 'Unknown', email: 'N/A' }
+        };
+      });
 
       setOrders(formattedOrders);
     } catch (error: any) {
