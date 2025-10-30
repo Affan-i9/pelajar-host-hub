@@ -324,7 +324,10 @@ export const AdminDashboard = ({ user }: AdminDashboardProps) => {
           </Card>
 
           {isSuperAdmin && (
-            <Card className="glass-card cursor-pointer hover:scale-105 transition-transform">
+            <Card 
+              className="glass-card cursor-pointer hover:scale-105 transition-transform"
+              onClick={() => navigate("/admin/analytics")}
+            >
               <CardContent className="pt-6">
                 <div className="flex flex-col items-center text-center">
                   <BarChart className="w-12 h-12 text-primary mb-3" />
