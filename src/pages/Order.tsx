@@ -15,6 +15,7 @@ const Order = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [domainName, setDomainName] = useState("");
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
@@ -24,18 +25,30 @@ const Order = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/login");
-        return;
-      }
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error || !session) {
+          toast({
+            title: "Error",
+            description: "Anda harus login terlebih dahulu",
+            variant: "destructive",
+          });
+          navigate("/login");
+          return;
+        }
 
-      setUser(session.user);
+        setUser(session.user);
+      } catch (error) {
+        console.error("Auth error:", error);
+        navigate("/login");
+      } finally {
+        setAuthLoading(false);
+      }
     };
 
     checkAuth();
-  }, [navigate]);
+  }, [navigate, toast]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -45,6 +58,17 @@ const Order = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if user is authenticated
+    if (!user || !user.id) {
+      toast({
+        title: "Error",
+        description: "Sesi Anda telah berakhir. Silakan login kembali.",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
     
     if (!domainName || !paymentProof) {
       toast({
@@ -58,20 +82,29 @@ const Order = () => {
     setLoading(true);
 
     try {
+      // Verify session is still valid
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Sesi tidak valid. Silakan login kembali.");
+      }
+
       // Upload payment proof
       const fileExt = paymentProof.name.split('.').pop();
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+      const fileName = `${session.user.id}-${Date.now()}.${fileExt}`;
       const { error: uploadError } = await supabase.storage
         .from('payment-proofs')
         .upload(fileName, paymentProof);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error("Upload error:", uploadError);
+        throw new Error(`Gagal upload bukti pembayaran: ${uploadError.message}`);
+      }
 
-      // Create order
+      // Create order with verified user ID
       const { error: orderError } = await supabase
         .from('orders')
         .insert({
-          user_id: user.id,
+          user_id: session.user.id,
           package_name: packageName,
           package_price: packagePrice,
           domain_name: domainName,
@@ -79,7 +112,10 @@ const Order = () => {
           status: 'pending'
         });
 
-      if (orderError) throw orderError;
+      if (orderError) {
+        console.error("Order error:", orderError);
+        throw new Error(`Gagal membuat order: ${orderError.message}`);
+      }
 
       toast({
         title: "Order Berhasil!",
@@ -88,15 +124,25 @@ const Order = () => {
 
       navigate("/dashboard");
     } catch (error: any) {
+      console.error("Submit error:", error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Terjadi kesalahan saat memproses pesanan",
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        <ParticlesBackground />
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative overflow-hidden">
