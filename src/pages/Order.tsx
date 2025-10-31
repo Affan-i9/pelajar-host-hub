@@ -88,9 +88,9 @@ const Order = () => {
         throw new Error("Sesi tidak valid. Silakan login kembali.");
       }
 
-      // Upload payment proof
+      // Upload payment proof to user's folder (required by RLS policy)
       const fileExt = paymentProof.name.split('.').pop();
-      const fileName = `${session.user.id}-${Date.now()}.${fileExt}`;
+      const fileName = `${session.user.id}/${Date.now()}.${fileExt}`;
       const { error: uploadError } = await supabase.storage
         .from('payment-proofs')
         .upload(fileName, paymentProof);
