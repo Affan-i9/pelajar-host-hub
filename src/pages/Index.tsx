@@ -25,7 +25,7 @@ const Index = () => {
             </h1>
           </div>
           <div className="animate-fade-in opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-foreground/80 mb-8 max-w-2xl mx-auto">
               Mulai dari <span className="text-primary font-bold">Rp 10.000/bulan</span> dengan SSL gratis, 24/7 support, dan backup otomatis
             </p>
           </div>
@@ -56,39 +56,39 @@ const Index = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">
               <span className="gradient-text">Keunggulan Smart-Hosting</span>
             </h2>
-            <p className="text-xl text-muted-foreground animate-fade-in">
+            <p className="text-xl text-foreground/70 animate-fade-in">
               Layanan hosting terbaik dengan fitur lengkap untuk kesuksesan website kamu
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 stagger-fade-in">
             {[
               {
-                icon: <Zap className="w-12 h-12 text-white" />,
+                icon: <Zap className="w-12 h-12 text-primary-foreground" />,
                 title: "Performa Tinggi",
                 description: "Server cepat dengan uptime 99.9% untuk website kamu"
               },
               {
-                icon: <Shield className="w-12 h-12 text-white" />,
+                icon: <Shield className="w-12 h-12 text-primary-foreground" />,
                 title: "Keamanan Terjamin",
                 description: "SSL gratis dan backup otomatis setiap hari"
               },
               {
-                icon: <HeadphonesIcon className="w-12 h-12 text-white" />,
+                icon: <HeadphonesIcon className="w-12 h-12 text-primary-foreground" />,
                 title: "24/7 Support",
                 description: "Tim support siap membantu kapan saja kamu butuh"
               },
               {
-                icon: <Server className="w-12 h-12 text-white" />,
+                icon: <Server className="w-12 h-12 text-primary-foreground" />,
                 title: "Resource Unlimited",
                 description: "Bandwidth dan storage sesuai kebutuhan"
               },
               {
-                icon: <Award className="w-12 h-12 text-white" />,
+                icon: <Award className="w-12 h-12 text-primary-foreground" />,
                 title: "Harga Pelajar",
                 description: "Harga khusus untuk pelajar dan mahasiswa"
               },
               {
-                icon: <Globe className="w-12 h-12 text-white" />,
+                icon: <Globe className="w-12 h-12 text-primary-foreground" />,
                 title: "Domain Gratis",
                 description: "Dapatkan domain gratis untuk setiap paket"
               }
@@ -101,7 +101,7 @@ const Index = () => {
                   {feature.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-3 gradient-text">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                <p className="text-foreground/70 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -114,7 +114,7 @@ const Index = () => {
           <h2 className="text-4xl font-bold text-center mb-4 gradient-text animate-fade-in">
             Pilih Paket Hosting
           </h2>
-          <p className="text-center text-muted-foreground mb-12 text-lg animate-fade-in">
+          <p className="text-center text-foreground/70 mb-12 text-lg animate-fade-in">
             Semua paket sudah termasuk SSL gratis dan 24/7 support
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-fade-in">
@@ -136,7 +136,7 @@ const Index = () => {
             <h2 className="text-4xl font-bold mb-4">
               Siap Memulai Website Kamu?
             </h2>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-foreground/80 mb-8">
               Daftar sekarang dan dapatkan hosting terbaik dengan harga pelajar
             </p>
             <Button
