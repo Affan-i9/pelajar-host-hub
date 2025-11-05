@@ -20,7 +20,7 @@ const Index = () => {
       {/* Hero Section - Fixed for Mobile */}
       <section className="relative pt-24 sm:pt-32 pb-20 px-4 z-20">
         <div className="container mx-auto text-center">
-          <div className="animate-fade-in opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
+          <div>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg leading-tight">
               <span className="gradient-text drop-shadow-glow block">Smart-Hosting</span>
               <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] block mt-2">
@@ -28,12 +28,12 @@ const Index = () => {
               </span>
             </h1>
           </div>
-          <div className="animate-fade-in opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
+          <div>
             <p className="text-lg sm:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto px-4">
               Mulai dari <span className="text-primary font-bold">Rp 10.000/bulan</span> dengan SSL gratis, 24/7 support, dan backup otomatis
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards] px-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <Button
               onClick={() => navigate("/register")}
               size="lg"
