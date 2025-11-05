@@ -18,10 +18,10 @@ const Index = () => {
       <section className="relative pt-32 pb-20 px-4">
         <div className="container mx-auto text-center">
           <div className="animate-fade-in opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="gradient-text">Smart-Hosting</span>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
+              <span className="gradient-text drop-shadow-glow">Smart-Hosting</span>
               <br />
-              <span className="text-foreground">Hosting Murah untuk Pelajar</span>
+              <span className="text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">Hosting Murah untuk Pelajar</span>
             </h1>
           </div>
           <div className="animate-fade-in opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
