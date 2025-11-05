@@ -127,12 +127,23 @@ const AdminOrders = () => {
   };
 
   const viewPaymentProofImage = async (fileName: string) => {
-    const { data } = await supabase.storage
-      .from("payment-proofs")
-      .getPublicUrl(fileName);
+    try {
+      // Use createSignedUrl for private buckets
+      const { data, error } = await supabase.storage
+        .from("payment-proofs")
+        .createSignedUrl(fileName, 3600); // URL valid for 1 hour
 
-    setPaymentProofUrl(data.publicUrl);
-    setViewPaymentProof(true);
+      if (error) throw error;
+
+      setPaymentProofUrl(data.signedUrl);
+      setViewPaymentProof(true);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Gagal memuat bukti pembayaran: " + error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   const getStatusBadge = (status: string) => {
