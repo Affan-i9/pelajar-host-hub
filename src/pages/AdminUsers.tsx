@@ -129,13 +129,36 @@ const AdminUsers = () => {
     if (!isSuperAdmin || !deleteUserId) return;
 
     try {
-      const { error } = await supabase.auth.admin.deleteUser(deleteUserId);
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Error",
+          description: "Session tidak valid",
+          variant: "destructive",
+        });
+        return;
+      }
 
-      if (error) throw error;
+      // Call edge function to delete user
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ userId: deleteUserId }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Gagal menghapus user');
+      }
 
       toast({
         title: "Sukses",
-        description: "User berhasil dihapus",
+        description: "User berhasil dihapus permanen dari sistem",
       });
 
       setDeleteUserId(null);
@@ -143,7 +166,7 @@ const AdminUsers = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Gagal menghapus user",
         variant: "destructive",
       });
     }
